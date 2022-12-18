@@ -7,16 +7,47 @@
 // 27(0,0,1) 90(0,1,1)
 // 26(1,0,1) 55(1,1,1)
 
-int[,,] FillArray(int x, int y, int z)
+int[] FillArray(int x, int y, int z)
 {
-    int[,,] Arr = new int[x, y, z];
+    int size = x*y*z;
+    int[] Arr = new int[size];
+    int i = 0;
+    int j = 1;
+    int Save = 0;
+    Arr[i] = new Random().Next(10, 100);
+    while (j < size)
+    {
+        Arr[j] = new Random().Next(10, 100);
+        Save = Arr[j];
+        for (i = 0; i < j;)
+        {
+            while (Arr[i] == Arr[j])
+            {
+        Arr[j] = new Random().Next(10, 100);
+            }
+            if (Save != Arr[j])
+            {
+                i = 0;
+                Save = Arr[j];
+            }
+            else
+                i++;
+        }
+        j++;
+    }
+    return Arr;
+}
+int [,,] FromOneTo3DArray (int[] arr, int x,int y, int z)
+{
+    int [,,] Arr= new int [x,y,z];
+    int l=0;
     for (int k = 0; k < z; k++)
     {
         for (int i = 0; i < x; i++)
         {
-            for (int j = 0; j < y; j++)
+            for (int j = 0; j < y; j++,l++)
             {
-                Arr[i, j, k] = new Random().Next(10, 100);
+                Arr[i, j, k] = arr[l];
             }
         }
     }
@@ -45,8 +76,7 @@ try
     int width = Convert.ToInt32(Console.ReadLine());
     Console.WriteLine("Введите высоту массива");
     int height = Convert.ToInt32(Console.ReadLine());
-    int[,,] Array = FillArray(length, width, height);
-    PrintArray(Array);
+    PrintArray(FromOneTo3DArray(FillArray(length,width,height),length,width,height));
 }
 catch
 {
